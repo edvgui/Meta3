@@ -1,0 +1,239 @@
+[
+  {
+    "type": "get",
+    "url": "/download/:song",
+    "title": "Download a specified song",
+    "name": "downloadSong",
+    "group": "App",
+    "parameter": {
+      "fields": {
+        "ref": [
+          {
+            "group": "ref",
+            "type": "String",
+            "optional": false,
+            "field": "song",
+            "description": "<p>Music mp3 file identifier.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/app/app.controllers.js",
+    "groupTitle": "App"
+  },
+  {
+    "type": "post",
+    "url": "/edit/:song",
+    "title": "Edit the metadata of a specified song",
+    "name": "editSong",
+    "group": "App",
+    "parameter": {
+      "fields": {
+        "ref": [
+          {
+            "group": "ref",
+            "type": "String",
+            "optional": false,
+            "field": "song",
+            "description": "<p>Music mp3 file identifier.</p>"
+          }
+        ],
+        "meta": [
+          {
+            "group": "meta",
+            "type": "String",
+            "optional": false,
+            "field": "songTitle",
+            "description": "<p>Title of the song.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "String",
+            "optional": false,
+            "field": "songArtist",
+            "description": "<p>Artist of the song.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "String",
+            "optional": false,
+            "field": "songAlbum",
+            "description": "<p>Album of the song.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "String",
+            "optional": false,
+            "field": "songAlbumArtist",
+            "description": "<p>Artist of the album of the song.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "Number",
+            "optional": false,
+            "field": "trackNumber",
+            "description": "<p>Track's number in the album.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "Number",
+            "optional": false,
+            "field": "discNumber",
+            "description": "<p>Disc's number in the album.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "Number",
+            "optional": false,
+            "field": "songYear",
+            "description": "<p>Year of the song's creation.</p>"
+          },
+          {
+            "group": "meta",
+            "type": "String",
+            "optional": false,
+            "field": "songGenre",
+            "description": "<p>The genre(s) of the song.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully updated the song metadata\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal server error\n{\n  \"status\": \"error\"\n  \"message\": \"Internal server error : \"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/app/app.controllers.js",
+    "groupTitle": "App"
+  },
+  {
+    "type": "get",
+    "url": "/metadata/:song",
+    "title": "Get the metadata of a specified song",
+    "name": "readMetadata",
+    "group": "App",
+    "parameter": {
+      "fields": {
+        "ref": [
+          {
+            "group": "ref",
+            "type": "String",
+            "optional": false,
+            "field": "song",
+            "description": "<p>Music mp3 file identifier.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\": \"success\",\n  \"message\": \"Metadata successfully extracted\"\n  \"data\": {\n      \"title\": \"My song title\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal server error\n{\n  \"status\": \"error\"\n  \"message\": \"Internal server error : \"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/app/app.controllers.js",
+    "groupTitle": "App"
+  },
+  {
+    "type": "post",
+    "url": "/upload",
+    "title": "Upload a mp3 file",
+    "name": "uploadSong",
+    "group": "App",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "defaultValue": "multipart/form-data",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "File",
+            "optional": false,
+            "field": "any",
+            "description": "<p>Music mp3 file.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully uploaded your song\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal server error\n{\n  \"status\": \"error\",\n  \"message\": \"Something went wrong, please make sure you have selected a file.\",\n  \"ref\": \"f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/app/app.controllers.js",
+    "groupTitle": "App"
+  },
+  {
+    "type": "get",
+    "url": "/ok",
+    "title": "Check if the server is up",
+    "name": "ok",
+    "group": "Check",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"status\": \"success\",\n  \"message\": \"Your server is up and ready\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/app/index.js",
+    "groupTitle": "Check"
+  }
+]

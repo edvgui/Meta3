@@ -1,6 +1,30 @@
 const constants = require('./../utils/constants');
 const helpers = require('./app.helpers');
 
+/**
+ * @api {post} /upload Upload a mp3 file
+ * @apiName uploadSong
+ * @apiGroup App
+ *
+ * @apiHeader {String} Content-Type=multipart/form-data
+ *
+ * @apiParam {File} any Music mp3 file.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "success",
+ *       "message": "You successfully uploaded your song"
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     {
+ *       "status": "error",
+ *       "message": "Something went wrong, please make sure you have selected a file.",
+ *       "ref": "f7110e021c2271d02c5e9cc2bd1b503e.mp3"
+ *     }
+ */
 async function uploadSong(req, res) {
     if (req.error) return res.status(500).json({
         status: 'error',
@@ -19,6 +43,37 @@ async function uploadSong(req, res) {
     }
 }
 
+
+/**
+ * @api {post} /edit/:song Edit the metadata of a specified song
+ * @apiName editSong
+ * @apiGroup App
+ *
+ * @apiParam (ref) {String} song Music mp3 file identifier.
+ *
+ * @apiParam (meta) {String} songTitle Title of the song.
+ * @apiParam (meta) {String} songArtist Artist of the song.
+ * @apiParam (meta) {String} songAlbum Album of the song.
+ * @apiParam (meta) {String} songAlbumArtist Artist of the album of the song.
+ * @apiParam (meta) {Number} trackNumber Track's number in the album.
+ * @apiParam (meta) {Number} discNumber Disc's number in the album.
+ * @apiParam (meta) {Number} songYear Year of the song's creation.
+ * @apiParam (meta) {String} songGenre The genre(s) of the song.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "success",
+ *       "message": "You successfully updated the song metadata"
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     {
+ *       "status": "error"
+ *       "message": "Internal server error : "
+ *     }
+ */
 async function editSong(req, res) {
     const ref = req.params.song;
     const data = {
@@ -54,10 +109,35 @@ async function editSong(req, res) {
 
     return res.status(200).json({
         status: 'success',
-        message: 'You successfully update the song metadata'
+        message: 'You successfully updated the song metadata'
     });
 }
 
+
+/**
+ * @api {get} /metadata/:song Get the metadata of a specified song
+ * @apiName readMetadata
+ * @apiGroup App
+ *
+ * @apiParam (ref) {String} song Music mp3 file identifier.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "success",
+ *       "message": "Metadata successfully extracted"
+ *       "data": {
+ *           "title": "My song title"
+ *       }
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     {
+ *       "status": "error"
+ *       "message": "Internal server error : "
+ *     }
+ */
 async function readMetadata(req, res) {
     const ref = req.params.song;
     const data = await helpers.readMetadata(ref);
@@ -73,6 +153,15 @@ async function readMetadata(req, res) {
     });
 }
 
+
+/**
+ * @api {get} /download/:song Download a specified song
+ * @apiName downloadSong
+ * @apiGroup App
+ *
+ * @apiParam (ref) {String} song Music mp3 file identifier.
+ *
+ */
 async function downloadSong(req, res) {
     const ref = req.params.song;
     return res.download(constants.songFolder + ref);

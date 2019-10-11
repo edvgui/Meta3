@@ -4,13 +4,19 @@
 	"license": "MIT",
 	"repository": {
 		"type": "Public GitHub repository",
-		"url": "https://github.com/edvgui/meta3"
+		"url": "https://github.com/edvgui/Meta3"
+	},
+	"apidoc": {
+		"title": "Meta3 Documentation",
+		"url" : ""
 	},
 	"scripts": {
-		"start": "gulp --gulpfile gulpfile.js"
+		"start": "gulp --gulpfile gulpfile.js",
+		"doc": "apidoc -i src/ -o docs/"
 	},
 	"dependencies": {
 		"debug": "4.1.1",
+		"apidoc": "0.17.7",
 
 		"express": "4.17.1",
 		"body-parser": "1.19.0",

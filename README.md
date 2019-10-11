@@ -4,7 +4,7 @@
 Meta3 is a simple REST API that allows to modify the metadata of a mp3 file.  This solution is presented under a docker
 container shape to make easier the deployment of the app.
 
-You can find the detailed API [here]().
+You can find the detailed API [here](https://edvgui.github.io/Meta3).
 
 ## Installation
 To create the docker container image, in the project folder, simply run :
