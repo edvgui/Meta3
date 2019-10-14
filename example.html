@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Meta3</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://edvgui.github.io/Meta3">API Documentation</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+
+
+    <div class="page-header">
+        <h1>Meta3 : Small example of use.</h1>
+    </div>
+
+    <div class="row">
+        <div id="alertBox" class="col">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    1. Import a file
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Select a file from your computer to import.</h5>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input id="songFile" name="songFile" type="file" accept=".mp3">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" onclick="upload();" class="btn btn-block btn-primary float-right">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-4 col-md-6 col-sm-12">
+            <div id="data" class="card card-primary card-outline">
+                <div class="card-header">
+                    2. Edit data.
+                </div>
+                <div class="card-body">
+                    <h5>Enter the file informations and save them to your file.</h5>
+                    <form id="editForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="control-label" for="songTitle">Title</label>
+                            <input name="songTitle" id="songTitle" class="form-control" type="text" placeholder="Title" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="songArtist">Artist</label>
+                            <input name="songArtist" id="songArtist" class="form-control" type="text" placeholder="Artist" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="songAlbum">Album</label>
+                            <input name="songAlbum" id="songAlbum" class="form-control" type="text" placeholder="Album" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="songAlbumArtist">Album artist</label>
+                            <input name="songAlbumArtist" id="songAlbumArtist" class="form-control" type="text" placeholder="Album artist" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="trackNumber">Track number</label>
+                            <input name="trackNumber" id="trackNumber" class="form-control" type="number" placeholder="Track number" min="1" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="discNumber">Disc number</label>
+                            <input name="discNumber" id="discNumber" class="form-control" type="number" placeholder="Disc number" min="1" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="songYear">Year</label>
+                            <input name="songYear" id="songYear" class="form-control" type="number" placeholder="Year" min="0" value="">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="songGenre">Genre</label>
+                            <input name="songGenre" id="songGenre" class="form-control" type="text" placeholder="Genre" value="">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-10">
+                                    <label class="control-label" for="songCover">Cover</label>
+                                    <div class="form-control">
+                                        <input name="songCover" id="songCover" type="file" accept=".jpg,.png">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <img src="" width="100%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#alertBox" type="button" class="btn btn-block btn-primary" onclick="edit();"><i class="fa fa-save"></i> Save</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    3. Download your file
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Download your modified file.</h5>
+                    <a id="downloadLink" href="#" class="btn btn-block btn-primary" download><i class="fa fa-download"></i> Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    const api = "http://localhost:3001";
+    let ref = "";
+
+    function request(url, method, data, callback) {
+        const req = new XMLHttpRequest();
+
+        req.onreadystatechange = function (event) {
+            // XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                callback(JSON.parse(this.response));
+            }
+        };
+
+        req.open(method, url, true);
+        req.send(data);
+    }
+
+    function upload() {
+        const uploadForm = document.getElementById("uploadForm");
+        const fd = new FormData(uploadForm);
+
+        request(api + "/upload", 'POST', fd, (response) => {
+            if (response.status === "success") {
+                ref = response.ref;
+                document.getElementById("downloadLink").href = api + "/download/" + ref;
+            }
+            showAlert(response.status, response.message);
+        });
+    }
+
+    function edit() {
+        const editForm = document.getElementById("editForm");
+        const fd = new FormData(editForm);
+
+        request(api + "/edit/" + ref, 'POST', fd, (response) => {
+            showAlert(response.status, response.message);
+        });
+    }
+
+    function showAlert(status, message) {
+        const alertBox = document.getElementById("alertBox");
+        alertBox.innerText = "";
+        const div = document.createElement("div");
+        div.className = "alert alert-admissible";
+        if (status === "success") {
+            div.className += " alert-success";
+        } else if (status === "error") {
+            div.className += " alert-danger";
+        }
+
+        div.innerHTML += "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
+        div.innerHTML += "<strong>" + status.toUpperCase() + "</strong> ";
+        div.innerHTML += message;
+
+        alertBox.appendChild(div);
+    }
+</script>
+</body>
+</html>

@@ -14,15 +14,15 @@ const helpers = require('./app.helpers');
  *     HTTP/1.1 200 OK
  *     {
  *       "status": "success",
- *       "message": "You successfully uploaded your song"
+ *       "message": "You successfully uploaded your song",
+ *       "ref": "f7110e021c2271d02c5e9cc2bd1b503e.mp3"
  *     }
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 500 Internal server error
  *     {
  *       "status": "error",
- *       "message": "Something went wrong, please make sure you have selected a file.",
- *       "ref": "f7110e021c2271d02c5e9cc2bd1b503e.mp3"
+ *       "message": "Something went wrong, please make sure you have selected a file."
  *     }
  */
 async function uploadSong(req, res) {
