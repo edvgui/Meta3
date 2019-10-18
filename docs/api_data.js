@@ -122,6 +122,61 @@ define({ "api": [
     "groupTitle": "App"
   },
   {
+    "type": "post",
+    "url": "/import",
+    "title": "Import a mp3 file from a url",
+    "name": "importSong",
+    "group": "App",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "defaultValue": "multipart/form-data",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "songUrl",
+            "description": "<p>Music mp3 file url.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 201 Created\n{\n  \"status\":\"success\",\n  \"message\":\"You successfully uploaded your song\",\n  \"data\": {\n    \"title\":\"Wild Stare\",\n    \"artist\":\"Giant Rooks\",\n    \"album\":\"Wild Stare\",\n    \"album_artist\":\"Giant Rooks\",\n    \"track\":\"1\",\n    \"date\":\"2018\",\n    \"genre\":\"Rock\",\n    \"encoder\":\"Lavf57.83.100\"\n  }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"status\": \"error\",\n  \"message\": \"Something went wrong, please make sure you have selected a file.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/app/app.controllers.js",
+    "groupTitle": "App"
+  },
+  {
     "type": "get",
     "url": "/metadata/:song",
     "title": "Get the metadata of a specified song",

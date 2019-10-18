@@ -1,14 +1,11 @@
 const express = require('express');
 const logger = require('morgan');
-const bodyParser = require('body-parser');
 const log = require('debug')('users-d');
 
 const routes = require('./app/index');
 
 const server = express();
 server.use(logger('dev'));
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: false }));
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');

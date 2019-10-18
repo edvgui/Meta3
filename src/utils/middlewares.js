@@ -47,6 +47,8 @@ const uploadImg = multer({
     }
 }).single('songCover');
 
+const uploadForm = multer().none();
+
 function mySongUpload(req, res, next) {
     uploadSong(req, res, function (err) {
         req.error = err;
@@ -75,7 +77,15 @@ function myImgUpload(req, res, next) {
     }, 60000, req);
 }
 
+function myFormUpload(req, res, next) {
+    uploadForm(req, res, function (err) {
+        req.error = err;
+        next();
+    });
+}
+
 module.exports = {
     mySongUpload,
-    myImgUpload
+    myImgUpload,
+    myFormUpload
 };

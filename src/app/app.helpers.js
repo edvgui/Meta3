@@ -1,5 +1,7 @@
 const constants = require('./../utils/constants');
 const ffmetadata = require('ffmetadata');
+const fs = require('fs');
+const http = require('http');
 
 function readMetadata(file) {
     return new Promise(function (resolve) {
@@ -28,8 +30,30 @@ function writeMetadataCover(file, options) {
     });
 }
 
+function downloadSong(filename, url) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(constants.songFolder + "/" + filename);
+
+        http.get(url, response => {
+            response.pipe(file);
+            file.on('finish', () => {
+                if (response.statusCode === 200)
+                    resolve();
+                else {
+                    fs.unlink(constants.songFolder + "/" + filename);
+                    reject("Couldn't find that resource");
+                }
+            });
+        }).on('error', (err) => {
+            fs.unlink(constants.songFolder + "/" + filename);
+            reject(err);
+        });
+    });
+}
+
 module.exports = {
     readMetadata,
     writeMetadata,
     writeMetadataCover,
+    downloadSong
 };

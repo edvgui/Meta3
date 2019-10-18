@@ -1,5 +1,6 @@
 const constants = require('./../utils/constants');
 const helpers = require('./app.helpers');
+const crypto = require('crypto');
 
 /**
  * @api {post} /upload Upload a mp3 file
@@ -41,6 +42,63 @@ async function uploadSong(req, res) {
             ref: req.ref
         });
     }
+}
+
+
+/**
+ * @api {post} /import Import a mp3 file from a url
+ * @apiName importSong
+ * @apiGroup App
+ *
+ * @apiHeader {String} Content-Type=multipart/form-data
+ *
+ * @apiParam {String} songUrl Music mp3 file url.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 201 Created
+ *     {
+ *       "status":"success",
+ *       "message":"You successfully uploaded your song",
+ *       "data": {
+ *         "title":"Wild Stare",
+ *         "artist":"Giant Rooks",
+ *         "album":"Wild Stare",
+ *         "album_artist":"Giant Rooks",
+ *         "track":"1",
+ *         "date":"2018",
+ *         "genre":"Rock",
+ *         "encoder":"Lavf57.83.100"
+ *       }
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "status": "error",
+ *       "message": "Something went wrong, please make sure you have selected a file."
+ *     }
+ */
+async function importSong(req, res) {
+    const url = req.body.songUrl;
+    if (!url) return res.status(400).json({
+        status: 'error',
+        message: 'Please give a url'
+    });
+
+    const filename = crypto.createHash('md5').update(Date.now() + "").digest('hex') + ".mp3";
+
+    helpers.downloadSong(filename, url).then(() => {
+        return res.status(201).json({
+            status: 'success',
+            message: 'You successfully uploaded your song',
+            ref: filename
+        });
+    }).catch(err => {
+        res.status(400).json({
+            status: 'error',
+            message: "Couldn't import the file : " + url
+        });
+    });
 }
 
 
@@ -169,6 +227,7 @@ async function downloadSong(req, res) {
 
 module.exports = {
     uploadSong,
+    importSong,
     editSong,
     readMetadata,
     downloadSong
