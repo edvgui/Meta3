@@ -8,10 +8,10 @@ const helpers = require('./app.helpers');
  *
  * @apiHeader {String} Content-Type=multipart/form-data
  *
- * @apiParam {File} any Music mp3 file.
+ * @apiParam {File} songFile Music mp3 file.
  *
  * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
+ *     HTTP/1.1 201 Created
  *     {
  *       "status": "success",
  *       "message": "You successfully uploaded your song",
@@ -19,7 +19,7 @@ const helpers = require('./app.helpers');
  *     }
  *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Internal server error
+ *     HTTP/1.1 400 Bad Request
  *     {
  *       "status": "error",
  *       "message": "Something went wrong, please make sure you have selected a file."
@@ -30,7 +30,7 @@ async function uploadSong(req, res) {
         status: 'error',
         message: 'Internal server error : ' + req.error
     });
-    else if (!req.file) return res.status(500).json({
+    else if (!req.file) return res.status(400).json({
         status: 'error',
         message: 'Something went wrong, please make sure you have select a file.'
     });

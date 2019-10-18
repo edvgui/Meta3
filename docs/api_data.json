@@ -189,7 +189,7 @@
             "group": "Parameter",
             "type": "File",
             "optional": false,
-            "field": "any",
+            "field": "songFile",
             "description": "<p>Music mp3 file.</p>"
           }
         ]
@@ -199,7 +199,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully uploaded your song\"\n}",
+          "content": "HTTP/1.1 201 Created\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully uploaded your song\",\n  \"ref\": \"f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
           "type": "json"
         }
       ]
@@ -208,7 +208,7 @@
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Internal server error\n{\n  \"status\": \"error\",\n  \"message\": \"Something went wrong, please make sure you have selected a file.\",\n  \"ref\": \"f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"status\": \"error\",\n  \"message\": \"Something went wrong, please make sure you have selected a file.\"\n}",
           "type": "json"
         }
       ]
