@@ -18,4 +18,6 @@ RUN npm install
 ADD gulpfile.js .
 ADD src src
 
+ADD uploads uploads
+
 CMD npm start
