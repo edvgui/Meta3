@@ -12,18 +12,23 @@ function readMetadata(file) {
     });
 }
 
-function writeMetadata(file, data) {
+function readMetadataCover(file) {
     return new Promise(function (resolve) {
-        ffmetadata.write(constants.songFolder + file, data, function(err) {
-            if (err) resolve({ success: false, error: "Error writing metadata : " + err.message});
-            else resolve({ success: true });
+        try {
+            fs.unlinkSync(constants.imageFolder + file + ".png");
+        } catch (error) {
+            // do nothing
+        }
+        ffmetadata.read(constants.songFolder + file, { coverPath: constants.imageFolder + file + ".png" }, function (err, data) {
+            if (err) resolve({success: false, error: "Error reading metadata : " + err.message});
+            else resolve({success: true, data: data });
         });
     });
 }
 
-function writeMetadataCover(file, options) {
+function writeMetadata(file, data, options) {
     return new Promise(function (resolve) {
-        ffmetadata.write(constants.songFolder + file, {}, options, function(err) {
+        ffmetadata.write(constants.songFolder + file, data, options, function(err) {
             if (err) resolve({ success: false, error: "Error writing metadata : " + err.message});
             else resolve({ success: true });
         });
@@ -53,7 +58,7 @@ function downloadSong(filename, url) {
 
 module.exports = {
     readMetadata,
+    readMetadataCover,
     writeMetadata,
-    writeMetadataCover,
     downloadSong
 };

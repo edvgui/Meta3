@@ -56,7 +56,8 @@ function mySongUpload(req, res, next) {
     });
     setTimeout((req) => {
         try {
-            fs.unlinkSync(constants.songFolder + req.ref)
+            fs.unlinkSync(constants.songFolder + req.ref);
+            fs.unlinkSync(constants.imageFolder + req.ref + '.png');
         } catch (error) {
             // do nothing
         }

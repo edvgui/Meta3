@@ -16,7 +16,7 @@ const crypto = require('crypto');
  *     {
  *       "status": "success",
  *       "message": "You successfully uploaded your song",
- *       "ref": "f7110e021c2271d02c5e9cc2bd1b503e.mp3"
+ *       "data": "f7110e021c2271d02c5e9cc2bd1b503e.mp3"
  *     }
  *
  * @apiErrorExample Error-Response:
@@ -33,13 +33,13 @@ async function uploadSong(req, res) {
     });
     else if (!req.file) return res.status(400).json({
         status: 'error',
-        message: 'Something went wrong, please make sure you have select a file.'
+        message: 'Something went wrong, please make sure you have selected a file.'
     });
     else {
         return res.status(201).json({
             status: 'success',
             message: 'You successfully uploaded your song',
-            ref: req.ref
+            data: req.ref
         });
     }
 }
@@ -57,25 +57,16 @@ async function uploadSong(req, res) {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 Created
  *     {
- *       "status":"success",
- *       "message":"You successfully uploaded your song",
- *       "data": {
- *         "title":"Wild Stare",
- *         "artist":"Giant Rooks",
- *         "album":"Wild Stare",
- *         "album_artist":"Giant Rooks",
- *         "track":"1",
- *         "date":"2018",
- *         "genre":"Rock",
- *         "encoder":"Lavf57.83.100"
- *       }
+ *       "status": "success",
+ *       "message": "You successfully imported your song",
+ *       "data": "f7110e021c2271d02c5e9cc2bd1b503e.mp3"
  *     }
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 400 Bad Request
  *     {
  *       "status": "error",
- *       "message": "Something went wrong, please make sure you have selected a file."
+ *       "message": "Couldn't import the file : https://example.com/f7110e021c2271d02c5e9cc2bd1b503e.mp3"
  *     }
  */
 async function importSong(req, res) {
@@ -91,7 +82,7 @@ async function importSong(req, res) {
         return res.status(201).json({
             status: 'success',
             message: 'You successfully uploaded your song',
-            ref: filename
+            data: filename
         });
     }).catch(err => {
         res.status(400).json({
@@ -145,25 +136,17 @@ async function editSong(req, res) {
         genre: req.body.songGenre
     };
 
-    const result = await helpers.writeMetadata(ref, data);
-    if (!result.success) return res.status(500).json({
-        status: 'error',
-        message: 'Internal server error : ' + result.error
-    });
-
     const options = ((req.file)
         ? { attachments: [req.file.path ] }
         : ((req.body.cover)
             ? { attachments: [req.body.cover] }
-            : undefined));
+            : {}));
 
-    if (options) {
-        const result2 = await helpers.writeMetadataCover(ref, options);
-        if (!result2.success) return res.status(500).json({
-            status: 'error',
-            message: 'Internal server error : ' + result2.error
-        });
-    }
+    const result = await helpers.writeMetadata(ref, data, options);
+    if (!result.success) return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error : ' + result.error
+    });
 
     return res.status(200).json({
         status: 'success',
@@ -204,6 +187,8 @@ async function readMetadata(req, res) {
         message: 'Internal server error : ' + data.error
     });
 
+    const cover = await helpers.readMetadataCover(ref);
+    if (cover && cover.success) data.data.cover = '/download/image/' + ref + '.png';
     return res.status(200).json({
         status: 'success',
         message: 'Metadata successfully extracted',
@@ -213,7 +198,21 @@ async function readMetadata(req, res) {
 
 
 /**
- * @api {get} /download/:song Download a specified song
+ * @api {get} /download/image/:image Download a specified song
+ * @apiName downloadImage
+ * @apiGroup App
+ *
+ * @apiParam (ref) {String} image Image file identifier.
+ *
+ */
+async function downloadImage(req, res) {
+    const ref = req.params.image;
+    return res.download(constants.imageFolder + ref);
+}
+
+
+/**
+ * @api {get} /download/song/:song Download a specified song
  * @apiName downloadSong
  * @apiGroup App
  *
@@ -230,5 +229,6 @@ module.exports = {
     importSong,
     editSong,
     readMetadata,
+    downloadImage,
     downloadSong
 };

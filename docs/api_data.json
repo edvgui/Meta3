@@ -1,7 +1,30 @@
 [
   {
     "type": "get",
-    "url": "/download/:song",
+    "url": "/download/image/:image",
+    "title": "Download a specified song",
+    "name": "downloadImage",
+    "group": "App",
+    "parameter": {
+      "fields": {
+        "ref": [
+          {
+            "group": "ref",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>Image file identifier.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/app/app.controllers.js",
+    "groupTitle": "App"
+  },
+  {
+    "type": "get",
+    "url": "/download/song/:song",
     "title": "Download a specified song",
     "name": "downloadSong",
     "group": "App",
@@ -158,7 +181,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 201 Created\n{\n  \"status\":\"success\",\n  \"message\":\"You successfully uploaded your song\",\n  \"data\": {\n    \"title\":\"Wild Stare\",\n    \"artist\":\"Giant Rooks\",\n    \"album\":\"Wild Stare\",\n    \"album_artist\":\"Giant Rooks\",\n    \"track\":\"1\",\n    \"date\":\"2018\",\n    \"genre\":\"Rock\",\n    \"encoder\":\"Lavf57.83.100\"\n  }\n}",
+          "content": "HTTP/1.1 201 Created\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully imported your song\",\n  \"data\": \"f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
           "type": "json"
         }
       ]
@@ -167,7 +190,7 @@
       "examples": [
         {
           "title": "Error-Response:",
-          "content": "HTTP/1.1 400 Bad Request\n{\n  \"status\": \"error\",\n  \"message\": \"Something went wrong, please make sure you have selected a file.\"\n}",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"status\": \"error\",\n  \"message\": \"Couldn't import the file : https://example.com/f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
           "type": "json"
         }
       ]
@@ -254,7 +277,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 201 Created\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully uploaded your song\",\n  \"ref\": \"f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
+          "content": "HTTP/1.1 201 Created\n{\n  \"status\": \"success\",\n  \"message\": \"You successfully uploaded your song\",\n  \"data\": \"f7110e021c2271d02c5e9cc2bd1b503e.mp3\"\n}",
           "type": "json"
         }
       ]
